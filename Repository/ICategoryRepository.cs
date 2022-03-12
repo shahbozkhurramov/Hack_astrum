@@ -1,6 +1,6 @@
-using MedTech.Entities;
+using CSA.Entities;
 
-namespace MedTech.Repository;
+namespace CSA.Repository;
 
 public interface ICategoryRepository
 {

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MedTech.Migrations
+namespace CSA.Migrations
 {
-    public partial class l : Migration
+    public partial class Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,8 @@ namespace MedTech.Migrations
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ServiceImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CallCenter = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CategoryItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

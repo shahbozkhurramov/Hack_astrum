@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MedTech.Data;
+using CSA.Data;
 using Microsoft.EntityFrameworkCore;
-using MedTech.Repository;
+using CSA.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<MedTechDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MedTechConnection")));
+builder.Services.AddDbContext<CSADbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CSAConnection")));
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddServerSideBlazor();
