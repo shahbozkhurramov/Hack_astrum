@@ -1,6 +1,5 @@
-@using Entities
+@using CSA.Entities
 @inherits LayoutComponentBase
-@inject ICategoryRepository iCategoryRepository
 
 <main>
 	
@@ -186,43 +185,3 @@ Inner part START -->
 Inner part END -->
 
 </main>
-@foreach (var item in categories)
-{
-    <img src="@item.CategoryImage">
-    <button class="btn btn-danger" @onclick='()=>Delete(item.Id)'>Delete</button>
-}
-@code{
-    private Category category = new();
-    private List<Category> categories = new();
-    
-    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
-    {
-        var file = inputFileChangeEvent.File;
-        var buffer = new byte[file.Size];
-        await file.OpenReadStream(2345233).ReadAsync(buffer);
-
-        category.CategoryImage = $"data:image;base64,{Convert.ToBase64String(buffer)}";
-        category.Id = Guid.NewGuid();
-        await iCategoryRepository.CreateAsync(category);
-    }
-
-    private async Task Delete(Guid id)
-    {
-        await iCategoryRepository.DeleteAsync(id);
-        await OnInitializedAsync();
-    }
-
-    private async void Create()
-    {
-        category.Id = Guid.NewGuid();
-        await iCategoryRepository.CreateAsync(category);
-        category = new();
-        categories = await iCategoryRepository.GetAllAsync();
-        StateHasChanged();
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        categories = await iCategoryRepository.GetAllAsync();
-    }
-    
-}

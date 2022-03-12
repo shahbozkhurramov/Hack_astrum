@@ -1,10 +1,11 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace MedTech.Entities;
+namespace CSA.Entities;
 
 public class Service
 {
-    [Key]
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
     
     public string Name { get; set; }
@@ -18,4 +19,6 @@ public class Service
     public Guid CategoryItemId { get; set; }
 
     public virtual CategoryItem CategoryItem { get; set; }
+
+    public EStatus Status { get; set; }
 }

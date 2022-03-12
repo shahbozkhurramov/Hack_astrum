@@ -1,9 +1,9 @@
-using MedTech.Entities;
+using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedTech.Data;
+namespace CSA.Data;
 
-public class MedTechDbContext: DbContext
+public class CSADbContext: DbContext
 {
     public DbSet<Category> Categories { get; set; }
 
@@ -11,6 +11,6 @@ public class MedTechDbContext: DbContext
     
     public DbSet<Service> Services { get; set; }
     
-    public MedTechDbContext(DbContextOptions<MedTechDbContext> options)
+    public CSADbContext(DbContextOptions<CSADbContext> options)
         : base(options) { }
 }

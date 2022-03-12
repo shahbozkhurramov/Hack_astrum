@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MedTech": {
+    "CSA": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

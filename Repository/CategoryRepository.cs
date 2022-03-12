@@ -1,15 +1,15 @@
-using MedTech.Data;
-using MedTech.Entities;
+using CSA.Data;
+using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedTech.Repository;
+namespace CSA.Repository;
 
 public class CategoryRepository : ICategoryRepository
 {
     private readonly ILogger<CategoryRepository> _logger;
-    private readonly MedTechDbContext _context;
+    private readonly CSADbContext _context;
 
-    public CategoryRepository(MedTechDbContext context, ILogger<CategoryRepository> logger)
+    public CategoryRepository(CSADbContext context, ILogger<CategoryRepository> logger)
     {
         _logger = logger;
         _context = context;

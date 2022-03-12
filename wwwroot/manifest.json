@@ -1,6 +1,6 @@
 {
-  "name": "MedTech",
-  "short_name": "MedTech",
+  "name": "CSA",
+  "short_name": "CSA",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
