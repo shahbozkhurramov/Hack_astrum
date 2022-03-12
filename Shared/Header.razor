@@ -1,0 +1,61 @@
+﻿@inherits ComponentBase
+
+<header class="navbar-light navbar-sticky header-static" id="navcollapseAll">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="/">
+				@* <img class="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo"> *@
+			</a>
+			<!-- Logo END -->
+
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-animation">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</button>
+
+			<!-- Main navbar START -->
+			<div class="navbar-collapse w-100 collapse" id="navbarCollapse">
+
+				<!-- Nav Main menu START -->
+				<ul class="navbar-nav navbar-nav-scroll mx-auto">
+					<!-- Nav item 1 Demos -->
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Davlat</a>
+						<ul class="dropdown-menu" aria-labelledby="demoMenu">
+							<li> <a class="dropdown-item" href="/">Home Default</a></li>
+							<li> <a class="dropdown-item" href="index-2.html">Home Education</a></li>
+							<li> <a class="dropdown-item" href="index-3.html">Home Academy</a></li>
+							<li> <a class="dropdown-item" href="index-4.html">Home Course</a></li>
+							<li> <a class="dropdown-item" href="index-5.html">Home University</a></li>
+							<li> <a class="dropdown-item" href="index-6.html">Home Kindergarten</a></li>
+							<li> <a class="dropdown-item" href="index-7.html">Home Landing</a></li>
+							<li> <a class="dropdown-item" href="index-8.html">Home Tutor</a></li>
+						</ul>
+					</li>
+				    <li class="nav-item"><a class="nav-link active" href="contact">Yordam</a></li>
+                </ul>
+
+				<!-- Nav Main menu END -->
+
+				<!-- Nav Search START -->
+				<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+					<div class="nav-item w-100">
+						<form class="position-relative">
+							<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+							<button class="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- Nav Search END -->
+			</div>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
