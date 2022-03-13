@@ -9,10 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CSADbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CSAConnection")));
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-builder.Services.AddTransient<ICategoryItemRepository, CategoryItemRepository>();
-builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryItemRepository, CategoryItemRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 
 var app = builder.Build();
 

@@ -1,0 +1,169 @@
+@page "/admin/{categoryId}"
+@using CSA.Components
+@using Entities
+@layout Admin
+@inject ICategoryItemRepository iCategoryItemRepository
+@inject ICategoryRepository iCategoryRepository
+
+<div class="card border bg-transparent rounded-3">
+    <!-- Card header START -->
+    <div class="card-header bg-transparent border-bottom">
+        <h3 class="mb-0">@category.Name</h3>
+    </div>
+    <!-- Card header END -->
+
+    <!-- Card body START -->
+    <div class="card-body">
+
+        <!-- Search and select START -->
+        <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Search -->
+            <div class="col-md-6">
+                <form class="rounded position-relative">
+                    <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+                </form>
+            </div>
+            <div class="col-md-6 text-center">
+                <button class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ikkilamchi kategoriya qo'shish</button>
+                @if(CategoryItems.Count > 0)
+                {
+                <a class="btn btn-info mt-2 mx-2" href="/admin/addservice/@categoryId" >Servis qo'shish</a>
+                }
+            </div>
+        </div>
+        <!-- Search and select END -->
+
+        <!-- Course list table START -->
+        <div class="table-responsive-lg border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+                <!-- Table head -->
+                <thead>
+                    <tr>
+                        <th scope="col" class="border-0 rounded-start text-center">Kategoriya nomi</th>
+                        <th scope="col" class="border-0">Xizmatlar soni</th>
+                        <th scope="col" class="border-0">Tahrirlash/O'chirish</th>
+                    </tr>
+                </thead>
+
+                <!-- Table body START -->
+                <tbody>
+                    @if(CategoryItems?.Count > 0)
+                    {
+                        @foreach (var item in CategoryItems)
+                        {
+                        <tr>
+                            <td>
+                                <a href="/admin/@item.Id.ToString()">
+                                <div class="d-flex align-items-center">
+                                    <div class="w-100px">
+                                        <img src="@item.CategoryItemImage" style="height: 1.5cm;" class="rounded" alt="">
+                                    </div>
+                                    <div class="mb-0 ms-2">
+                                        <h6><a href="#">@item.Name</a></h6>
+                                    </div>
+                                </div>
+                                </a>
+                            </td>
+                            <td class="text-center text-sm-start">@item.Services?.Count</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0" data-bs-toggle="modal" @onclick='()=>EditModel(item.Id)' data-bs-target="#staticBackdrop"><i class="far fa-fw fa-edit"></i></a>
+                                <button class="btn btn-sm btn-danger-soft btn-round mb-0" @onclick="() => DeleteCategory(item.Id)"><i class="fas fa-fw fa-times"></i></button>
+                            </td>
+                            
+                        </tr>
+                        }
+                    }
+                </tbody>
+                <!-- Table body END -->
+            </table>
+        </div>
+        <!-- Course list table END -->
+
+        <!-- Pagination START -->
+        <div class="d-sm-flex justify-content-center mt-4 mt-sm-3">
+            <nav class="d-flex  mb-0" aria-label="navigation">
+                <ul class="pagination pagination-sm pagination-primary-soft mb-0 pb-0">
+                    <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Pagination END -->
+    </div>
+    <!-- Card body START -->
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label>Category Name</label>
+            <input class="form-control" @bind="categoryItem.Name" placeholder="Name">
+            <InputFile class="form-control mt-3" @bind-Value="categoryItem.CategoryItemImage" OnChange="OnInputFileChanged"/>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-primary" data-bs-dismiss="modal"  @onclick=CreateCategoryItem>Create</button> 
+        </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public string categoryId { get; set; }
+
+    public CategoryItem categoryItem = new(){Name="",CategoryItemImage="", Services = new List<Service>()};
+    public Category category = new(){Name="",CategoryItems = new List<CategoryItem>()};
+    
+    public List<CategoryItem> CategoryItems = new();
+    
+    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
+    {
+        var file = inputFileChangeEvent.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream(34567858).ReadAsync(buffer);
+
+        categoryItem.CategoryItemImage = $"data:image;base64,{Convert.ToBase64String(buffer)}";
+
+    }
+
+    private async Task DeleteCategory(Guid id)
+    {
+        await iCategoryItemRepository.DeleteAsync(id);
+        StateHasChanged();
+        await OnParametersSetAsync();
+    }
+
+    private async void CreateCategoryItem()
+    {
+        categoryItem.Id = Guid.NewGuid();
+        categoryItem.CategoryId = category.Id;
+        category.CategoryItems = CategoryItems;
+        await iCategoryItemRepository.CreateAsync(categoryItem);
+        await iCategoryRepository.UpdateAsync(category);
+        categoryItem = new();
+        StateHasChanged();
+    }
+
+    private async void EditModel(Guid id)
+    {
+        categoryItem = await iCategoryItemRepository.GetAsync(id);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        CategoryItems = (await iCategoryItemRepository.GetAllAsync()).Where(c => c.CategoryId == Guid.Parse(categoryId)).ToList();
+        category = await iCategoryRepository.GetAsync(Guid.Parse(categoryId));
+    }
+    
+}

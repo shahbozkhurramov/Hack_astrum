@@ -18,7 +18,7 @@ public class Service
 
     public Guid CategoryItemId { get; set; }
 
-    public virtual CategoryItem CategoryItem { get; set; }
+    public string Price { get; set; }
 
     public EStatus Status { get; set; }
 }

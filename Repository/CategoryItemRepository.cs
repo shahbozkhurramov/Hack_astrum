@@ -19,6 +19,7 @@ public class CategoryItemRepository : ICategoryItemRepository
     {
         try
         {
+            _logger.LogInformation("adajibfaksbdfkab sfkabsdfjasdfasdf");
             await _context.CategoryItems.AddAsync(createdObject);
             await _context.SaveChangesAsync();
 

@@ -1,5 +1,5 @@
 @layout Admin
-@page "//admin/categories"
+@page "/admin"
 @using Entities
 @inject ICategoryRepository iCategoryRepository
 
@@ -26,9 +26,6 @@
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create category</button>
             </div>
         </div>
-        <!-- Search and select END -->
-
-        <!-- Course list table START -->
         <div class="table-responsive-lg border-0">
             <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
                 <!-- Table head -->
@@ -40,7 +37,6 @@
                     </tr>
                 </thead>
 
-                <!-- Table body START -->
                 <tbody>
                     @foreach (var item in categories)
                     {
@@ -52,7 +48,7 @@
                                     <img src="@item.CategoryImage" style="height: 1.5cm;" class="rounded" alt="">
                                 </div>
                                 <div class="mb-0 ms-2">
-                                    <h6><a href="#">@item.Name</a></h6>
+                                    <h6><a>@item.Id</a></h6>
                                 </div>
                             </div>
                             </a>
@@ -66,12 +62,8 @@
                     </tr>
                     }
                 </tbody>
-                <!-- Table body END -->
             </table>
         </div>
-        <!-- Course list table END -->
-
-        <!-- Pagination START -->
         <div class="d-sm-flex justify-content-center mt-4 mt-sm-3">
             <nav class="d-flex  mb-0" aria-label="navigation">
                 <ul class="pagination pagination-sm pagination-primary-soft mb-0 pb-0">
@@ -83,11 +75,8 @@
                 </ul>
             </nav>
         </div>
-        <!-- Pagination END -->
     </div>
-    <!-- Card body START -->
 </div>
-
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -102,7 +91,6 @@
             <InputFile class="form-control mt-3" oninput="FormInputValidation()" @bind-Value="category.CategoryImage" OnChange="OnInputFileChanged"/>
         </div>
         <div class="modal-footer">
-
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCategory">Create</button>
         </div>
@@ -118,11 +106,9 @@
     {
         var file = inputFileChangeEvent.File;
         var buffer = new byte[file.Size];
-        await file.OpenReadStream(2345233).ReadAsync(buffer);
-
+        await file.OpenReadStream(34567858).ReadAsync(buffer);
         category.CategoryImage = $"data:image;base64,{Convert.ToBase64String(buffer)}";
         category.Id = Guid.NewGuid();
-        await iCategoryRepository.CreateAsync(category);
     }
 
     private async Task DeleteCategory(Guid id)

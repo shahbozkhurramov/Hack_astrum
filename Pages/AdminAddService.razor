@@ -1,0 +1,81 @@
+@page "/admin/addservice/{categoryId}"
+@using Entities
+@layout Admin
+@inject ICategoryItemRepository ICategoryItemRepository
+@inject IServiceRepository IServiceRepository
+<div class="card card-body shadow p-4 p-sm-5 position-relative">
+
+    <form class="row g-3 position-relative">
+        <!-- Name -->
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label">Xizmat nomi</label>
+            <input type="text" class="form-control" @bind="service.Name">
+        </div>
+
+        <!-- Last name -->
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label">Telefon raqam</label>
+            <input type="text" class="form-control" @bind="service.CallCenter">
+        </div>
+        <!-- Email -->
+        
+        <!-- Comment -->
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label">Kategoriyani tanlang</label>
+            <select class="form-select" @bind="service.CategoryItemId">
+                <option>Kategoriyani tanlang</option>
+                @foreach (var item in categoryItems)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label">Manzil</label>
+            <input type="text" class="form-control" @bind="service.Location">
+        </div>
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label">Narx</label>
+            <input type="text" class="form-control" @bind="service.Price">
+        </div>
+        <div class="col-md-6 col-lg-12 col-xl-6">
+            <label class="form-label ">Rasm yuklang</label>
+            <InputFile class="form-control" @bind-Value="service.ServiceImage" OnChange="OnInputFileChanged"/>
+        </div>
+        <!-- Button -->
+        <div class="col-12">
+            <button  class="btn btn-primary mb-0" @onclick="CreateService">Servis yaratish</button>
+        </div>
+    </form>
+    <!-- Form END -->
+</div>
+
+@code{
+    [Parameter]
+    public string categoryId { get; set; }
+    
+    public Service service = new();
+    
+    public List<CategoryItem> categoryItems = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        categoryItems = (await ICategoryItemRepository.GetAllAsync()).Where(c => c.CategoryId == Guid.Parse(categoryId)).ToList();
+    }
+
+    private async void CreateService()
+    {
+        await IServiceRepository.CreateAsync(service);
+
+    }
+
+    private async Task OnInputFileChanged(InputFileChangeEventArgs inputFileChangeEvent)
+    {
+        var file = inputFileChangeEvent.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream(3456788).ReadAsync(buffer);
+
+        service.ServiceImage = $"data:image;base64,{Convert.ToBase64String(buffer)}";
+
+    }
+}

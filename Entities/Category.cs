@@ -5,7 +5,7 @@ namespace CSA.Entities;
 
 public class Category
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key]
     public Guid Id { get; set; }
     
     public string Name { get; set; }

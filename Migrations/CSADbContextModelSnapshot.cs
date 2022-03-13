@@ -25,6 +25,7 @@ namespace CSA.Migrations
             modelBuilder.Entity("CSA.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CategoryImage")
@@ -41,6 +42,7 @@ namespace CSA.Migrations
             modelBuilder.Entity("CSA.Entities.CategoryItem", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
@@ -76,6 +78,9 @@ namespace CSA.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ServiceImage")
                         .HasColumnType("nvarchar(max)");
 
@@ -102,13 +107,11 @@ namespace CSA.Migrations
 
             modelBuilder.Entity("CSA.Entities.Service", b =>
                 {
-                    b.HasOne("CSA.Entities.CategoryItem", "CategoryItem")
+                    b.HasOne("CSA.Entities.CategoryItem", null)
                         .WithMany("Services")
                         .HasForeignKey("CategoryItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CategoryItem");
                 });
 
             modelBuilder.Entity("CSA.Entities.Category", b =>

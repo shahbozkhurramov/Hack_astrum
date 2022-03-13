@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CSA.Migrations
 {
-    public partial class Create : Migration
+    public partial class l : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,6 +52,7 @@ namespace CSA.Migrations
                     ServiceImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CallCenter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

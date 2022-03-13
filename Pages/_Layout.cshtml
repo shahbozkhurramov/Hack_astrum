@@ -42,7 +42,7 @@
 <body>
     @RenderBody()
 
-    <div id="blazor-error-ui">
+    @* <div id="blazor-error-ui">
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
         </environment>
@@ -51,9 +51,8 @@
         </environment>
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
-    </div>
+    </div> *@
     <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="_framework/blazor.server.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/vendor/tiny-slider/tiny-slider.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.js"></script>
@@ -62,6 +61,7 @@
     <script src="assets/js/tel.js"></script>
     <script src="assets/js/AdditionalFunctions.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="_framework/blazor.server.js"></script>
     <script>
         AOS.init();
     </script>
