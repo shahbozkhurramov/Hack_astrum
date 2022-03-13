@@ -10,6 +10,8 @@ builder.Services.AddDbContext<CSADbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CSAConnection")));
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<ICategoryItemRepository, CategoryItemRepository>();
+builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();

@@ -1,0 +1,38 @@
+@using Entities
+@inherits ComponentBase
+<h1>hello</h1>
+@if(category.CategoryItems != null)
+{
+<section class="bg-light position-relative overflow-hidden">
+
+	<div class="container position-relative">
+		<!-- Title -->
+		<div class="row">
+			<div class="col-lg-8 mb-4">
+				<h2>@category.Name</h2>
+			</div>
+		</div>
+		<div class="row g-4 g-lg-5">
+			<!-- Item -->
+			@foreach (var item in category.CategoryItems)
+			{
+				<div class="col-sm-6 col-xl-3">
+					<div class="bg-body shadow rounded-3 text-center p-4 position-relative">
+						<!-- Image -->
+						<img src="@item.CategoryItemImage" class="h-100px mb-3" alt="">
+						<!-- Title -->
+						<h5 class="mb-2"><a href="#" class="stretched-link">@item.Name</a></h5>
+						<span class="mb-0">@item.Services?.Count</span>
+					</div>
+				</div>
+			}
+
+		</div>
+	</div>
+</section>
+}
+@code{
+    [Parameter]
+    public Category category { get; set; } = new(){CategoryItems = new List<CategoryItem>()};
+
+}

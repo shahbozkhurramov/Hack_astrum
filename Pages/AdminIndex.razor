@@ -1,13 +1,114 @@
 @layout Admin
-@inherits ComponentBase
-@page "/admin"
+@page "//admin/categories"
 @using Entities
 @inject ICategoryRepository iCategoryRepository
-@foreach (var item in categories)
-{
-    <img src="@item.CategoryImage">
-    <button class="btn btn-danger" @onclick='()=>Delete(item.Id)'>Delete</button>
-}
+
+<div class="card border bg-transparent rounded-3">
+    <!-- Card header START -->
+    <div class="card-header bg-transparent border-bottom">
+        <h3 class="mb-0">Kategoriyalar</h3>
+    </div>
+    <!-- Card header END -->
+
+    <!-- Card body START -->
+    <div class="card-body">
+
+        <!-- Search and select START -->
+        <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Search -->
+            <div class="col-md-8">
+                <form class="rounded position-relative">
+                    <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i class="fas fa-search fs-6 "></i></button>
+                </form>
+            </div>
+            <div class="col-md-4 text-center">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create category</button>
+            </div>
+        </div>
+        <!-- Search and select END -->
+
+        <!-- Course list table START -->
+        <div class="table-responsive-lg border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+                <!-- Table head -->
+                <thead>
+                    <tr>
+                        <th scope="col" class="border-0 rounded-start text-center">Kategoriya nomi</th>
+                        <th scope="col" class="border-0">Xizmatlar soni</th>
+                        <th scope="col" class="border-0">Tahrirlash/O'chirish</th>
+                    </tr>
+                </thead>
+
+                <!-- Table body START -->
+                <tbody>
+                    @foreach (var item in categories)
+                    {
+                    <tr>
+                        <td>
+                            <a href="/admin/@item.Id.ToString()">
+                            <div class="d-flex align-items-center">
+                                <div class="w-100px">
+                                    <img src="@item.CategoryImage" style="height: 1.5cm;" class="rounded" alt="">
+                                </div>
+                                <div class="mb-0 ms-2">
+                                    <h6><a href="#">@item.Name</a></h6>
+                                </div>
+                            </div>
+                            </a>
+                        </td>
+                        <td class="text-center text-sm-start">@item.CategoryItems.Count</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="far fa-fw fa-edit"></i></a>
+                            <button class="btn btn-sm btn-danger-soft btn-round mb-0" @onclick="() => DeleteCategory(item.Id)"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                        
+                    </tr>
+                    }
+                </tbody>
+                <!-- Table body END -->
+            </table>
+        </div>
+        <!-- Course list table END -->
+
+        <!-- Pagination START -->
+        <div class="d-sm-flex justify-content-center mt-4 mt-sm-3">
+            <nav class="d-flex  mb-0" aria-label="navigation">
+                <ul class="pagination pagination-sm pagination-primary-soft mb-0 pb-0">
+                    <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Pagination END -->
+    </div>
+    <!-- Card body START -->
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label>Category Name</label>
+            <input class="form-control" @bind="category.Name" placeholder="Name">
+            <InputFile class="form-control mt-3" oninput="FormInputValidation()" @bind-Value="category.CategoryImage" OnChange="OnInputFileChanged"/>
+        </div>
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="CreateCategory">Create</button>
+        </div>
+        </div>
+    </div>
+</div>
 
 @code{
     private Category category = new();
@@ -24,18 +125,18 @@
         await iCategoryRepository.CreateAsync(category);
     }
 
-    private async Task Delete(Guid id)
+    private async Task DeleteCategory(Guid id)
     {
         await iCategoryRepository.DeleteAsync(id);
         await OnInitializedAsync();
     }
 
-    private async void Create()
+    private async void CreateCategory()
     {
         category.Id = Guid.NewGuid();
         await iCategoryRepository.CreateAsync(category);
-        category = new();
         categories = await iCategoryRepository.GetAllAsync();
+        category = new();
         StateHasChanged();
     }
     protected override async Task OnInitializedAsync()

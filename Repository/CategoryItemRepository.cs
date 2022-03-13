@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CSA.Repository;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryItemRepository : ICategoryItemRepository
 {
-    private readonly ILogger<CategoryRepository> _logger;
+    private readonly ILogger<CategoryItemRepository> _logger;
     private readonly CSADbContext _context;
 
-    public CategoryRepository(CSADbContext context, ILogger<CategoryRepository> logger)
+    public CategoryItemRepository(CSADbContext context, ILogger<CategoryItemRepository> logger)
     {
         _logger = logger;
         _context = context;
     }
 
-    public async Task<(bool IsSuccess, Exception Exception, Category createdObject)> CreateAsync(Category createdObject)
+    public async Task<(bool IsSuccess, Exception Exception, CategoryItem createdObject)> CreateAsync(CategoryItem createdObject)
     {
         try
         {
-            await _context.Categories.AddAsync(createdObject);
+            await _context.CategoryItems.AddAsync(createdObject);
             await _context.SaveChangesAsync();
 
             return (true, null, createdObject);
@@ -34,8 +34,8 @@ public class CategoryRepository : ICategoryRepository
     {
         try
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-            _context.Categories.Remove(category);
+            var categoryItem = await _context.CategoryItems.FirstOrDefaultAsync(c => c.Id == id);
+            _context.CategoryItems.Remove(categoryItem);
             await _context.SaveChangesAsync();
 
             return (true, null);
@@ -49,20 +49,20 @@ public class CategoryRepository : ICategoryRepository
     public Task<bool> ExistsAsync(Guid id)
         => _context.Categories.AnyAsync(c => c.Id==id);
 
-    public Task<List<Category>> GetAllAsync()
-        => _context.Categories
+    public Task<List<CategoryItem>> GetAllAsync()
+        => _context.CategoryItems
             .AsNoTracking()
-            .Include(c => c.CategoryItems)
+            .Include(c => c.Services)
             .ToListAsync();
 
-    public Task<Category> GetAsync(Guid id)
-        => _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+    public Task<CategoryItem> GetAsync(Guid id)
+        => _context.CategoryItems.FirstOrDefaultAsync(c => c.Id == id);
 
-    public async Task<(bool IsSuccess, Exception Exception, Category updatedObject)> UpdateAsync(Category updatedObject)
+    public async Task<(bool IsSuccess, Exception Exception, CategoryItem updatedObject)> UpdateAsync(CategoryItem updatedObject)
     {
-        try
+         try
         {
-            _context.Categories.Update(updatedObject);
+            _context.CategoryItems.Update(updatedObject);
             await _context.SaveChangesAsync();
 
             return (true, null, updatedObject);
